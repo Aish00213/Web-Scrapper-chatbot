@@ -1,3 +1,21 @@
+import os
+import sys
+
+# Critical stability patches
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"  # Kills TensorFlow spam
+os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Fixes HuggingFace
+
+# SQLite fix (MUST be before any imports)
+__import__('pysqlite3')
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+# Only import after patches
+import streamlit as st
+
+
+
+
+
 from bs4 import BeautifulSoup
 import chromadb
 from chromadb.utils import embedding_functions
